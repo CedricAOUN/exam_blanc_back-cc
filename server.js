@@ -8,7 +8,14 @@ const connectDB = require('./config/db');
 connectDB();
 
 const app = express();
-const whitelist = process.env.WHITELISTED_ORIGINS.split(',');
+const whitelist = (process.env.WHITELISTED_ORIGINS || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin: whitelist,
+}));
 
 // Middleware
 app.use(cors({
