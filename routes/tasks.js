@@ -3,8 +3,11 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Task = require('../models/Task');
 
-// @route   GET api/tasks
-// @desc    Get all user tasks
+/**
+ * Gets all tasks belonging to the authenticated user.
+ * @route GET /api/tasks
+ * @auth Required
+ */
 router.get('/', auth, async (req, res) => {
   try {
     const tasks = await Task.find({ user: req.user.id }).sort({ createdAt: -1 });
@@ -15,8 +18,11 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/tasks
-// @desc    Add a new task
+/**
+ * Creates a task for the authenticated user.
+ * @route POST /api/tasks
+ * @auth Required
+ */
 router.post('/', auth, async (req, res) => {
   const { 
     title,
@@ -52,8 +58,11 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/tasks/:id
-// @desc    Update a task
+/**
+ * Updates a task belonging to the authenticated user.
+ * @route PUT /api/tasks/:id
+ * @auth Required
+ */
 router.put('/:id', auth, async (req, res) => {
   const { title, description, isCompleted } = req.body;
   
@@ -81,8 +90,11 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   DELETE api/tasks/:id
-// @desc    Delete a task
+/**
+ * Deletes a task belonging to the authenticated user.
+ * @route DELETE /api/tasks/:id
+ * @auth Required
+ */
 // Un utilisateur peut supprimer les tâches des autres.
 router.delete('/:id', auth, async (req, res) => {
   try {
