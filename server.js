@@ -8,9 +8,12 @@ const connectDB = require('./config/db');
 connectDB();
 
 const app = express();
+const whitelist = process.env.WHITELISTED_ORIGINS.split(',');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: whitelist // Autoriser uniquement les origines spécifiées dans le fichier .env
+}));
 app.use(express.json());
 
 // Routes
